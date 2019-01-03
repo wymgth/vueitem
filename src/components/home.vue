@@ -11,7 +11,7 @@
           <h2>电商后台管理系统</h2>
         </el-col>
         <el-col :span="1" class="loginout">
-          <a href>退出</a>
+          <a href="#" @click.prevent="handleLoginout()">退出</a>
         </el-col>
       </el-row>
     </el-header>
@@ -91,7 +91,7 @@
         </el-menu>
       </el-aside>
       <el-main class="main">Main
-        <router-view/>
+
       </el-main>
 
     </el-container>
@@ -100,7 +100,25 @@
 </template>
 
 <script>
-export default {}
+export default {
+  beforeCreate () {
+    if (!localStorage.getItem('token')) {
+      this.$message.warning('请先登陆')
+      this.$router.push({
+        name: 'login'
+      })
+    }
+  },
+  methods: {
+    handleLoginout () {
+      localStorage.clear()
+      this.$router.push({
+        name: 'login'
+      })
+      this.$message.success('退出成功')
+    }
+  },
+}
 </script>
 
 <style>
@@ -118,7 +136,7 @@ export default {}
   /* background-color: black; */
 }
 .middle {
-  line-height: 60px;
+  line-height: 25px;
   color: white;
   text-align: center;
 }
